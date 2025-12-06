@@ -21,7 +21,7 @@ func saveInputToFile(output int, outputPath string) {
 		panic(err)
 	}
 
-	fmt.Print("%d bytes have been written to the file", bytes)
+	fmt.Println("%d bytes have been written to the file", bytes)
 
 }
 

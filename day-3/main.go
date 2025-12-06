@@ -24,53 +24,6 @@ func saveInputToFile(output int, outputPath string) {
 	fmt.Println("%d bytes have been written to the file", bytes)
 
 }
-func partOne(start int, end int) int {
-	res := 0
-	for i := start; i <= end; i++ {
-		curString := strconv.Itoa(i)
-		stringLen := len(curString)
-
-		if stringLen%2 == 0 {
-			middle := stringLen / 2
-
-			if curString[:middle] == curString[middle:] {
-				fmt.Println(curString)
-				res += i
-			}
-		}
-
-	}
-	return res
-
-}
-func partTwo(start int, end int) int {
-	res := 0
-	for i := start; i <= end; i++ {
-		curString := strconv.Itoa(i)
-		stringLen := len(curString)
-
-		for k := 1; k <= stringLen/2; k++ {
-			addCur := true
-			if stringLen%k == 0 {
-
-				for j := k; j <= stringLen-k; j += k {
-					if curString[j-k:j] != curString[j:j+k] {
-						addCur = false
-					}
-				}
-
-				if addCur {
-					res += i
-					break
-
-				}
-
-			}
-		}
-
-	}
-	return res
-}
 func main() {
 	filePath := "input.txt"
 
