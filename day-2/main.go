@@ -9,11 +9,11 @@ import (
 
 func saveInputToFile(output int, outputPath string) {
 	newFile, err := os.Create(outputPath)
-	defer newFile.Close()
-
 	if err != nil {
 		panic(err)
 	}
+
+	defer newFile.Close()
 
 	bytes, err := newFile.WriteString(strconv.Itoa(output))
 
@@ -24,7 +24,53 @@ func saveInputToFile(output int, outputPath string) {
 	fmt.Print("%d bytes have been written to the file", bytes)
 
 }
+func partOne(start int, end int) int {
+	res := 0
+	for i := start; i <= end; i++ {
+		curString := strconv.Itoa(i)
+		stringLen := len(curString)
 
+		if stringLen%2 == 0 {
+			middle := stringLen / 2
+
+			if curString[:middle] == curString[middle:] {
+				fmt.Println(curString)
+				res += i
+			}
+		}
+
+	}
+	return res
+
+}
+func partTwo(start int, end int) int {
+	res := 0
+	for i := start; i <= end; i++ {
+		curString := strconv.Itoa(i)
+		stringLen := len(curString)
+
+		for k := 1; k <= stringLen/2; k++ {
+			addCur := true
+			if stringLen%k == 0 {
+
+				for j := k; j <= stringLen-k; j += k {
+					if curString[j-k:j] != curString[j:j+k] {
+						addCur = false
+					}
+				}
+
+				if addCur {
+					res += i
+					break
+
+				}
+
+			}
+		}
+
+	}
+	return res
+}
 func main() {
 	filePath := "input.txt"
 
@@ -50,26 +96,13 @@ func main() {
 		}
 		end, err := strconv.Atoi(str2)
 
+		res += partTwo(start, end)
 		if err != nil {
 			fmt.Println("string parsing failed", err)
 			return
 		}
 
-		for i := start; i <= end; i++ {
-			curString := strconv.Itoa(i)
-			stringLen := len(curString)
-
-			if stringLen%2 == 0 {
-				middle := stringLen / 2
-
-				if curString[:middle] == curString[middle:] {
-					fmt.Println(curString)
-					res += i
-				}
-			}
-
-		}
-		fmt.Println(res, start, end)
 	}
+	saveInputToFile(res, "output.txt")
 	fmt.Print("Success")
 }
